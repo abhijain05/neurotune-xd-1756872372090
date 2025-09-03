@@ -1,18 +1,144 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mvc:View xmlns:mvc="sap.ui.core.mvc"
-  xmlns="sap.m"
-  xmlns:layout="sap.ui.layout"
-  xmlns:form="sap.ui.layout.form"
-  xmlns:core="sap.ui.core"
-  xmlns:richtexteditor="sap.ui.richtexteditor"
-  xmlns:viz="sap.viz.ui5"
-  controllerName="preview.app.controller.PoDetailView"
-  displayBlock="true">
-  <Page title="PoDetailView" enableScrolling="true">
-    <content>
-      <Title id="title_f0n8bhcp" text="Standard PO 4500017100 Created by ZECHA"/>
-      <Text id="layoutdata_o8gxlqkn"/>
-      <Text id="uielements_y3y05u49"/>
-    </content>
-  </Page>
+<mvc:View
+	controllerName="converted.podetailview.controller.PoDetailView"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	displayBlock="true"
+          xmlns:commons="sap.ui.commons">
+	<Page title="Standard PO Detail View" showNavButton="true" navButtonPress="onActionBack">
+		<content>
+			<Title text="Standard PO 4500017100 Created by ZECHA" level="H2"/>
+
+			<layout:VerticalLayout id="MainContentLayout">
+				<form:SimpleForm id="PoHeaderForm" layout="ResponsiveGridLayout" editable="false">
+					<form:content>
+						<Label text="PO Type"/>
+						<Select id="PoTypeDropdown" selectedKey="{poData>/poData/poType}">
+              <items>{poData>/poTypes}</items>
+            </Select>
+						<Label text="PO Number"/>
+						<Input value="{poData>/poData/poNumber}" editable="false"/>
+						<Label text="Vendor"/>
+						<Input value="{poData>/poData/vendor}" editable="false"/>
+						<Label text="Doc. Date"/>
+						<Input value="{poData>/poData/docDate}" editable="false"/>
+					</form:content>
+				</form:SimpleForm>
+
+				<IconTabBar id="HeaderTabStrip" selectedKey="{poData>/selectedHeaderTab}" select="onSelectHeaderTab">
+					<items>
+						<IconTabFilter text="Delivery/Invoice" key="DeliveryInvoiceTab"/>
+						<IconTabFilter text="Conditions" key="ConditionsTab"/>
+						<IconTabFilter text="Texts" key="TextsTab"/>
+						<IconTabFilter text="Address" key="AddressTab"/>
+						<IconTabFilter text="Communication" key="CommunicationTab"/>
+						<IconTabFilter text="Partners" key="PartnersTab"/>
+						<IconTabFilter text="Additional Data" key="AdditionalDataTab"/>
+						<IconTabFilter text="Org. Data" key="OrgDataTab"/>
+						<IconTabFilter text="Status" key="StatusTab"/>
+					</items>
+				</IconTabBar>
+
+        <layout:VerticalLayout id="ItemTableSectionLayout">
+          <Toolbar id="ItemTableToolbar">
+            <content>
+              <Button icon="sap-icon://search" tooltip="Search" press="onActionTableSearch"/>
+              <Button icon="sap-icon://grid" tooltip="Layout" press="onActionTableLayout"/>
+              <Button icon="sap-icon://add" tooltip="Create Item" press="onActionTableCreateItem"/>
+              <Button icon="sap-icon://delete" tooltip="Delete Item" press="onActionTableDeleteItem"/>
+              <Button icon="sap-icon://copy" tooltip="Copy Item" press="onActionTableCopyItem"/>
+              <Button icon="sap-icon://locked" tooltip="Lock Item" press="onActionTableLockItem"/>
+              <Button icon="sap-icon://unlocked" tooltip="Unlock Item" press="onActionTableUnlockItem"/>
+              <Button icon="sap-icon://detail-view" tooltip="Item Details" press="onActionTableDetails"/>
+              <Button icon="sap-icon://filter" tooltip="Filter" press="onActionTableFilter"/>
+              <Button icon="sap-icon://print" tooltip="Print" press="onActionTablePrint"/>
+              <Button icon="sap-icon://download" tooltip="Export" press="onActionTableExport"/>
+              <Button text="Addl Planning" tooltip="Additional Planning" press="onActionAddlPlanning"/>
+            </content>
+          </Toolbar>
+
+          <Table id="ItemTable" items="{poData>/poData/items}" mode="MultiSelect">
+            <columns>
+              <Column>
+                <header>
+                  <CheckBox select="onToggleAllItems"/>
+                </header>
+                <template>
+                  <CheckBox selected="{item>selected}" select="onToggleItem" />
+                </template>
+              </Column>
+              <Column width="50px"><header><Text text="Itm"/></header><template><Text text="{item>itemNumber}"/></template></Column>
+              <Column width="30px"><header><Text text="A"/></header><template><CheckBox selected="{item>acceptance}"/></template></Column>
+              <Column width="30px"><header><Text text="I"/></header><template><CheckBox selected="{item>invoice}"/></template></Column>
+              <Column width="150px"><header><Text text="Material"/></header><template><Link text="{item>materialId}" tooltip="{item>materialDescription}"/></template></Column>
+              <Column width="250px"><header><Text text="Short Text"/></header><template><Text text="{item>shortText}"/></template></Column>
+              <Column width="120px"><header><Text text="PO Quantity"/></header><template><Text text="{item>poQuantity} {item>poQuantityUnit}"/></template></Column>
+              <Column width="30px"><header><Text text="O."/></header><template><CheckBox selected="{item>overdelivery}"/></template></Column>
+              <Column width="30px"><header><Text text="C"/></header><template><CheckBox selected="{item>confirmation}"/></template></Column>
+              <Column width="100px"><header><Text text="Deliv. Date"/></header><template><Text text="{item>deliveryDate}"/></template></Column>
+              <Column width="100px"><header><Text text="Net Price"/></header><template><Text text="{item>netPrice}"/></template></Column>
+              <Column width="60px"><header><Text text="Curr."/></header><template><Text text="{item>currency}"/></template></Column>
+              <Column width="40px"><header><Text text="Per"/></header><template><Text text="{item>perUnit}"/></template></Column>
+              <Column width="30px"><header><Text text="F"/></header><template><CheckBox selected="{item>freeItem}"/></template></Column>
+              <Column width="30px"><header><Text text="O..."/></header><template><CheckBox selected="{item>otherFlag}"/></template></Column>
+              <Column width="120px"><header><Text text="Matl Group"/></header><template><Text text="{item>materialGroup}"/></template></Column>
+              <Column width="80px"><header><Text text="Plnt"/></header><template><Text text="{item>plant}"/></template></Column>
+              <Column width="100px"><header><Text text="Stor. Location"/></header><template><Text text="{item>storageLocation}"/></template></Column>
+              <Column width="30px"><header><Button icon="sap-icon://settings" tooltip="Column Settings" press="onActionTableSettings"/></header></Column>
+            </columns>
+          </Table>
+
+          <Toolbar>
+            <content>
+              <Button icon="sap-icon://navigation-left-arrow" tooltip="Previous Page" press="onActionTablePreviousPage"/>
+              <Button icon="sap-icon://navigation-right-arrow" tooltip="Next Page" press="onActionTableNextPage"/>
+            </content>
+          </Toolbar>
+        </layout:VerticalLayout>
+
+				<layout:VerticalLayout id="ItemDetailsLayout">
+					<layout:HorizontalLayout id="ItemSelectorLayout">
+						<Label text="Item" design="Bold"/>
+						<Select id="ItemSelectorDropdown" selectedKey="{poData>/poData/selectedItem/id}" change="onSelectLineItem">
+              <items>{poData>/poData/items}</items>
+            </Select>
+						<Button icon="sap-icon://navigation-up-arrow" tooltip="Previous Item" press="onActionItemUp"/>
+						<Button icon="sap-icon://navigation-down-arrow" tooltip="Next Item" press="onActionItemDown"/>
+					</layout:HorizontalLayout>
+
+					<IconTabBar id="ItemTabStrip" selectedKey="{poData>/selectedItemTab}" select="onSelectLineItemTab">
+						<items>
+							<IconTabFilter text="Material Data" key="MaterialDataTab"/>
+							<IconTabFilter text="Quantities/Weights" key="QuantitiesWeightsTab"/>
+							<IconTabFilter text="Delivery Schedule" key="DeliveryScheduleTab"/>
+							<IconTabFilter text="Delivery" key="DeliveryTab"/>
+							<IconTabFilter text="Invoice" key="InvoiceTab">
+                <content>
+                  <form:SimpleForm id="InvoiceForm" layout="ResponsiveGridLayout" editable="true">
+                    <form:content>
+                      <CheckBox text="Inv. Receipt" selected="{poData>/poData/selectedItem/invoiceReceipt}" change="onCheckInvReceipt"/>
+                      <Label text="Tax code"/>
+                      <Input value="VN" editable="false"/>
+                      <CheckBox text="Final Invoice" selected="{poData>/poData/selectedItem/finalInvoice}" change="onCheckFinalInvoice"/>
+                      <Button text="Taxes" press="onActionTaxes"/>
+                      <CheckBox text="GR-Bsd IV" selected="{poData>/poData/selectedItem/grBsdIv}" change="onCheckGrBsdIv"/>
+                      <CheckBox text="ERS" selected="{poData>/poData/selectedItem/ers}" change="onCheckErs"/>
+                    </form:content>
+                  </form:SimpleForm>
+                </content>
+							</IconTabFilter>
+							<IconTabFilter text="Conditions" key="ConditionsItemTab"/>
+							<IconTabFilter text="Purchase Order History" key="PurchaseOrderHistoryTab"/>
+							<IconTabFilter text="Texts" key="TextsItemTab"/>
+							<IconTabFilter text="Delivery Address" key="DeliveryAddressTab"/>
+							<IconTabFilter text="Confirmations" key="ConfirmationsTab"/>
+						</items>
+					</IconTabBar>
+				</layout:VerticalLayout>
+				<MessageStrip id="PoMessageArea" />
+			</layout:VerticalLayout>
+		</content>
+	</Page>
 </mvc:View>

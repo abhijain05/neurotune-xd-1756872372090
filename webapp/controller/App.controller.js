@@ -1,34 +1,31 @@
 sap.ui.define([
-  "sap/ui/core/mvc/Controller",
-  "sap/ui/core/UIComponent"
-], function (Controller, UIComponent) {
-  "use strict";
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/core/UIComponent"
+], function(Controller, UIComponent) {
+	"use strict";
 
-  return Controller.extend("converted.podetailview.controller.App", {
-    onInit: function () {
-      console.log("App controller initialized");
-      
-      // Get the router instance
-      var oRouter = UIComponent.getRouterFor(this);
-      
-      if (oRouter) {
-        console.log("Router found, initializing navigation");
-        
-        // Add error handling for routing
-        oRouter.attachBypassed(function(oEvent) {
-          console.log("Route bypassed:", oEvent.getParameter("hash"));
-        });
-        
-        // Navigate to main view if no hash is set
-        if (!window.location.hash || window.location.hash === "#") {
-          console.log("No hash found, navigating to main route");
-          setTimeout(function() {
-            oRouter.navTo("RouteMain");
-          }, 100);
-        }
-      } else {
-        console.error("Router not found in App controller");
-      }
-    }
-  });
+	return Controller.extend("converted.podetailview.controller.App", {
+		onInit: function() {
+			// Get the router instance
+			const oRouter = UIComponent.getRouterFor(this);
+
+			if (oRouter) {
+				// Add error handling for routing
+				oRouter.attachBypassed(function(oEvent) {
+					const sHash = oEvent.getParameter("hash");
+					console.log(`Route bypassed: ${sHash}`);
+					// Handle the bypassed route, e.g., display a 404 page
+				});
+
+				// Navigate to main view if no hash is set
+				if (!window.location.hash || window.location.hash === "#") {
+					setTimeout(() => {
+						oRouter.navTo("RouteMain");
+					}, 100); //Slight delay to allow UI to fully initialize.
+				}
+			} else {
+				console.error("Router not found in App controller");
+			}
+		}
+	});
 });
