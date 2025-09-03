@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebDynpro xmlns="http://www.sap.com/wd/webdynpro">
+  <View name="PoDetailView">
+    <Title>Standard PO 4500017100 Created by ZECHA</Title>
+    <LayoutData>
+      <VerticalLayout />
+    </LayoutData>
+    <UIElements>
+      <!-- Top Header Toolbar -->
+      <ToolBar id="HeaderToolbar">
+        <Items>
+          <ToolBarButton id="BackButton" text="" imageSource="~sapicons/navigation-left-arrow" tooltip="Back" onAction="onActionBack" />
+          <ToolBarSeparator />
+          <ToolBarButton id="CheckButton" text="" imageSource="~sapicons/accept" tooltip="Check" onAction="onActionCheck" />
+          <DropDownByIndex id="DocumentOverviewDropdown" width="100px" selectedKey="{/poData/documentOverviewType}" onAction="onSelectDocumentOverviewType">
+            <Items>
+              <CollectionRef id="DocumentOverviewTypeItems" dataSource="{/documentOverviewTypes}" />
+            </Items>
+          </DropDownByIndex>
+          <ToolBarButton id="DocumentOverviewButton" text="Document Overview On" tooltip="Document Overview On" onAction="onActionDocumentOverview" />
+          <ToolBarSeparator />
+          <ToolBarButton id="SaveButton" text="" imageSource="~sapicons/save" tooltip="Save" onAction="onActionSaveGlobal" />
+          <ToolBarButton id="PrintPreviewButton" text="Print Preview" tooltip="Print Preview" onAction="onActionPrintPreview" />
+          <ToolBarButton id="MessagesButton" text="Messages" tooltip="Show Messages" onAction="onActionMessages" />
+          <ToolBarButton id="InfoButton" text="" imageSource="~sapicons/information" tooltip="Information" onAction="onActionInfo" />
+          <ToolBarButton id="PersonalSettingButton" text="Personal Setting" tooltip="Personal Settings" onAction="onActionPersonalSetting" />
+          <ToolBarButton id="CancelButton" text="Cancel" tooltip="Cancel" onAction="onActionCancel" />
+        </Items>
+        <RightItems>
+          <ToolBarButton id="SearchGlobalButton" text="" imageSource="~sapicons/search" tooltip="Search" onAction="onActionSearchGlobal" />
+          <ToolBarButton id="SettingsGlobalButton" text="" imageSource="~sapicons/settings" tooltip="Settings" onAction="onActionSettingsGlobal" />
+          <ToolBarButton id="ExitButton" text="Exit" tooltip="Exit Application" onAction="onActionExit" />
+        </RightItems>
+      </ToolBar>
+
+      <!-- Main Content Layout -->
+      <VerticalLayout id="MainContentLayout">
+        <!-- PO Header Section -->
+        <FormContainer id="PoHeaderForm" colCount="4">
+          <FormElements>
+            <FormElement id="PoTypeElement">
+              <Label text="" for="PoTypeDropdown" />
+              <DropDownByIndex id="PoTypeDropdown" width="120px" selectedKey="{/poData/poType}" onAction="onSelectPoType">
+                <Items>
+                  <CollectionRef id="PoTypeItems" dataSource="{/poTypes}" />
+                </Items>
+              </DropDownByIndex>
+            </FormElement>
+            <FormElement id="PoNumberElement">
+              <Label text="" for="PoNumberField" />
+              <InputField id="PoNumberField" value="4500017100" readOnly="true" width="100px" />
+            </FormElement>
+            <FormElement id="VendorLabelElement">
+              <Label text="Vendor" for="VendorField" />
+              <InputField id="VendorField" value="1012 Reihl &amp; Müller" readOnly="true" width="200px" />
+            </FormElement>
+            <FormElement id="DocDateLabelElement">
+              <Label text="Doc. date" for="DocDateField" />
+              <DateField id="DocDateField" value="02.05.2006" readOnly="true" />
+            </FormElement>
+          </FormElements>
+        </FormContainer>
+
+        <!-- Header Level Tab Strip -->
+        <TabStrip id="HeaderTabStrip" selectedTabId="OrgDataTab" onSelect="onSelectHeaderTab">
+          <Tabs>
+            <Tab id="DeliveryInvoiceTab" text="Delivery/Invoice" />
+            <Tab id="ConditionsTab" text="Conditions" />
+            <Tab id="TextsTab" text="Texts" />
+            <Tab id="AddressTab" text="Address" />
+            <Tab id="CommunicationTab" text="Communication" />
+            <Tab id="PartnersTab" text="Partners" />
+            <Tab id="AdditionalDataTab" text="Additional Data" />
+            <Tab id="OrgDataTab" text="Org. Data">
+              <Content>
+                <FormContainer id="OrgDataForm" colCount="2">
+                  <FormElements>
+                    <FormElement id="PurchasingOrgElement">
+                      <Label text="Purchasing Org." for="PurchasingOrgInput" />
+                      <HorizontalLayout id="PurchasingOrgLayout">
+                        <InputField id="PurchasingOrgInput" value="0005" readOnly="true" width="50px" />
+                        <TextView id="PurchasingOrgName" text="IDES Deutschland" design="Standard" />
+                      </HorizontalLayout>
+                    </FormElement>
+                    <FormElement id="PurchGroupElement">
+                      <Label text="Purch. Group" for="PurchGroupInput" />
+                      <HorizontalLayout id="PurchGroupLayout">
+                        <InputField id="PurchGroupInput" value="005" readOnly="true" width="50px" />
+                        <TextView id="PurchGroupName" text="Diller, M" design="Standard" />
+                      </HorizontalLayout>
+                    </FormElement>
+                    <FormElement id="CompanyCodeElement">
+                      <Label text="Company Code" for="CompanyCodeInput" />
+                      <HorizontalLayout id="CompanyCodeLayout">
+                        <InputField id="CompanyCodeInput" value="0005" readOnly="true" width="50px" />
+                        <TextView id="CompanyCodeName" text="IDES AG NEW GL" design="Standard" />
+                      </HorizontalLayout>
+                    </FormElement>
+                  </FormElements>
+                </FormContainer>
+              </Content>
+            </Tab>
+            <Tab id="StatusTab" text="Status" />
+          </Tabs>
+        </TabStrip>
+
+        <!-- Item Table Section -->
+        <VerticalLayout id="ItemTableSectionLayout">
+          <ToolBar id="ItemTableToolbar">
+            <Items>
+              <ToolBarButton id="ItemTableSearchButton" text="" imageSource="~sapicons/search" tooltip="Search" onAction="onActionTableSearch" />
+              <ToolBarButton id="ItemTableLayoutButton" text="" imageSource="~sapicons/grid" tooltip="Layout" onAction="onActionTableLayout" />
+              <ToolBarSeparator />
+              <ToolBarButton id="ItemTableCreateButton" text="" imageSource="~sapicons/add" tooltip="Create Item" onAction="onActionTableCreateItem" />
+              <ToolBarButton id="ItemTableDeleteButton" text="" imageSource="~sapicons/delete" tooltip="Delete Item" onAction="onActionTableDeleteItem" />
+              <ToolBarButton id="ItemTableCopyButton" text="" imageSource="~sapicons/copy" tooltip="Copy Item" onAction="onActionTableCopyItem" />
+              <ToolBarButton id="ItemTableLockButton" text="" imageSource="~sapicons/locked" tooltip="Lock Item" onAction="onActionTableLockItem" />
+              <ToolBarButton id="ItemTableUnlockButton" text="" imageSource="~sapicons/unlocked" tooltip="Unlock Item" onAction="onActionTableUnlockItem" />
+              <ToolBarSeparator />
+              <ToolBarButton id="ItemTableDetailsButton" text="" imageSource="~sapicons/detail-view" tooltip="Item Details" onAction="onActionTableDetails" />
+              <ToolBarButton id="ItemTableFilterButton" text="" imageSource="~sapicons/filter" tooltip="Filter" onAction="onActionTableFilter" />
+              <ToolBarButton id="ItemTablePrintButton" text="" imageSource="~sapicons/print" tooltip="Print" onAction="onActionTablePrint" />
+              <ToolBarButton id="ItemTableExportButton" text="" imageSource="~sapicons/download" tooltip="Export" onAction="onActionTableExport" />
+              <ToolBarButton id="AddlPlanningButton" text="Addl Planning" tooltip="Additional Planning" onAction="onActionAddlPlanning" />
+            </Items>
+          </ToolBar>
+
+          <Table id="ItemTable" dataSource="{/poData/items}" visibleRowCount="3" selectionMode="multi">
+            <Columns>
+              <TableColumn id="ColSelect" width="30px">
+                <Header>
+                  <CheckBox id="HeaderSelAll" tooltip="Select All" onToggle="onToggleAllItems" />
+                </Header>
+                <Template>
+                  <CheckBox id="ItemSel" checked="{item/selected}" onToggle="onToggleItem" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColItm" width="50px">
+                <Header>
+                  <TextView text="Itm" />
+                </Header>
+                <Template>
+                  <TextView text="{item/itemNumber}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColA" width="30px">
+                <Header>
+                  <TextView text="A" />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/acceptance}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColI" width="30px">
+                <Header>
+                  <TextView text="I" />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/invoice}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColMaterial" width="150px">
+                <Header>
+                  <TextView text="Material" />
+                </Header>
+                <Template>
+                  <Link text="{item/materialId}" tooltip="{item/materialDescription}" onAction="onActionMaterialDetails" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColShortText" width="250px">
+                <Header>
+                  <TextView text="Short Text" />
+                </Header>
+                <Template>
+                  <TextView text="{item/shortText}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColPoQuantity" width="120px">
+                <Header>
+                  <TextView text="PO Quantity" />
+                </Header>
+                <Template>
+                  <TextView text="{item/poQuantity} {item/poQuantityUnit}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColO" width="30px">
+                <Header>
+                  <TextView text="O." />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/overdelivery}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColC" width="30px">
+                <Header>
+                  <TextView text="C" />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/confirmation}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColDelivDate" width="100px">
+                <Header>
+                  <TextView text="Deliv. Date" />
+                </Header>
+                <Template>
+                  <TextView text="{item/deliveryDate}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColNetPrice" width="100px">
+                <Header>
+                  <TextView text="Net Price" />
+                </Header>
+                <Template>
+                  <TextView text="{item/netPrice}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColCurr" width="60px">
+                <Header>
+                  <TextView text="Curr." />
+                </Header>
+                <Template>
+                  <TextView text="{item/currency}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColPer" width="40px">
+                <Header>
+                  <TextView text="Per" />
+                </Header>
+                <Template>
+                  <TextView text="{item/perUnit}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColF" width="30px">
+                <Header>
+                  <TextView text="F" />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/freeItem}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColOthers" width="30px">
+                <Header>
+                  <TextView text="O..." />
+                </Header>
+                <Template>
+                  <CheckBox checked="{item/otherFlag}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColMatlGroup" width="120px">
+                <Header>
+                  <TextView text="Matl Group" />
+                </Header>
+                <Template>
+                  <TextView text="{item/materialGroup}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColPlnt" width="80px">
+                <Header>
+                  <TextView text="Plnt" />
+                </Header>
+                <Template>
+                  <TextView text="{item/plant}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColStorLocation" width="100px">
+                <Header>
+                  <TextView text="Stor. Location" />
+                </Header>
+                <Template>
+                  <TextView text="{item/storageLocation}" />
+                </Template>
+              </TableColumn>
+              <TableColumn id="ColSettings" width="30px">
+                <Header>
+                  <Button text="" imageSource="~sapicons/settings" tooltip="Column Settings" onAction="onActionTableSettings" />
+                </Header>
+                <Template>
+                  <!-- No specific content for this column in rows shown -->
+                </Template>
+              </TableColumn>
+            </Columns>
+            <Footer>
+              <MatrixLayout id="TableFooterLayout" cellSpacing="0px">
+                <MatrixRow>
+                  <MatrixHeadData colSpan="19">
+                    <FlowLayout>
+                      <Button text="" imageSource="~sapicons/navigation-left-arrow" tooltip="Previous Page" onAction="onActionTablePreviousPage" />
+                      <Button text="" imageSource="~sapicons/navigation-right-arrow" tooltip="Next Page" onAction="onActionTableNextPage" />
+                    </FlowLayout>
+                  </MatrixHeadData>
+                </MatrixRow>
+              </MatrixLayout>
+            </Footer>
+          </Table>
+        </VerticalLayout>
+
+        <!-- Item Details Section -->
+        <VerticalLayout id="ItemDetailsLayout">
+          <HorizontalLayout id="ItemSelectorLayout">
+            <Label text="Item" design="Bold" />
+            <DropDownByIndex id="ItemSelectorDropdown" width="300px" selectedKey="{/poData/selectedItem/id}" onAction="onSelectLineItem">
+              <Items>
+                <CollectionRef id="ItemSelectionItems" dataSource="{/poData/items}" valuePath="id" textPath="description" />
+              </Items>
+            </DropDownByIndex>
+            <Button id="ItemUpButton" text="" imageSource="~sapicons/navigation-up-arrow" tooltip="Previous Item" onAction="onActionItemUp" />
+            <Button id="ItemDownButton" text="" imageSource="~sapicons/navigation-down-arrow" tooltip="Next Item" onAction="onActionItemDown" />
+          </HorizontalLayout>
+
+          <!-- Item Level Tab Strip -->
+          <TabStrip id="ItemTabStrip" selectedTabId="InvoiceTab" onSelect="onSelectLineItemTab">
+            <Tabs>
+              <Tab id="MaterialDataTab" text="Material Data" />
+              <Tab id="QuantitiesWeightsTab" text="Quantities/Weights" />
+              <Tab id="DeliveryScheduleTab" text="Delivery Schedule" />
+              <Tab id="DeliveryTab" text="Delivery" />
+              <Tab id="InvoiceTab" text="Invoice">
+                <Content>
+                  <FormContainer id="InvoiceForm" colCount="2">
+                    <FormElements>
+                      <FormElement id="InvReceiptElement">
+                        <Label text="" for="InvReceiptCheckbox" />
+                        <CheckBox id="InvReceiptCheckbox" text="Inv. Receipt" checked="{/poData/selectedItem/invoiceReceipt}" onToggle="onCheckInvReceipt" />
+                      </FormElement>
+                      <FormElement id="TaxCodeElement">
+                        <Label text="Tax code" for="TaxCodeInputField" />
+                        <InputField id="TaxCodeInputField" value="VN" />
+                      </FormElement>
+                      <FormElement id="FinalInvoiceElement">
+                        <Label text="" for="FinalInvoiceCheckbox" />
+                        <CheckBox id="FinalInvoiceCheckbox" text="Final Invoice" checked="{/poData/selectedItem/finalInvoice}" onToggle="onCheckFinalInvoice" />
+                      </FormElement>
+                      <FormElement id="TaxesButtonElement">
+                        <Label text="" for="TaxesButton" />
+                        <Button id="TaxesButton" text="Taxes" onAction="onActionTaxes" />
+                      </FormElement>
+                      <FormElement id="GrBsdIvElement">
+                        <Label text="" for="GrBsdIvCheckbox" />
+                        <CheckBox id="GrBsdIvCheckbox" text="GR-Bsd IV" checked="{/poData/selectedItem/grBsdIv}" onToggle="onCheckGrBsdIv" />
+                      </FormElement>
+                      <FormElement id="ERSInvElement">
+                        <Label text="" for="ERSCheckbox" />
+                        <CheckBox id="ERSCheckbox" text="ERS" checked="{/poData/selectedItem/ers}" onToggle="onCheckErs" />
+                      </FormElement>
+                    </FormElements>
+                  </FormContainer>
+                </Content>
+              </Tab>
+              <Tab id="ConditionsItemTab" text="Conditions" />
+              <Tab id="PurchaseOrderHistoryTab" text="Purchase Order History" />
+              <Tab id="TextsItemTab" text="Texts" />
+              <Tab id="DeliveryAddressTab" text="Delivery Address" />
+              <Tab id="ConfirmationsTab" text="Confirmations" />
+            </Tabs>
+          </TabStrip>
+        </VerticalLayout>
+        <!-- Status / Message Area -->
+        <MessageArea id="PoMessageArea" />
+      </VerticalLayout>
+    </UIElements>
+  </View>
+  <Controller name="PoDetailViewController">
+    <Methods>
+      <Method name="onActionBack" eventHandler="true" />
+      <Method name="onActionCheck" eventHandler="true" />
+      <Method name="onSelectDocumentOverviewType" eventHandler="true" />
+      <Method name="onActionDocumentOverview" eventHandler="true" />
+      <Method name="onActionSaveGlobal" eventHandler="true" />
+      <Method name="onActionPrintPreview" eventHandler="true" />
+      <Method name="onActionMessages" eventHandler="true" />
+      <Method name="onActionInfo" eventHandler="true" />
+      <Method name="onActionPersonalSetting" eventHandler="true" />
+      <Method name="onActionCancel" eventHandler="true" />
+      <Method name="onActionSearchGlobal" eventHandler="true" />
+      <Method name="onActionSettingsGlobal" eventHandler="true" />
+      <Method name="onActionExit" eventHandler="true" />
+      <Method name="onSelectPoType" eventHandler="true" />
+      <Method name="onSelectHeaderTab" eventHandler="true">
+        <Parameters>
+          <Parameter name="id" type="string" />
+        </Parameters>
+      </Method>
+      <Method name="onActionTableSearch" eventHandler="true" />
+      <Method name="onActionTableLayout" eventHandler="true" />
+      <Method name="onActionTableCreateItem" eventHandler="true" />
+      <Method name="onActionTableDeleteItem" eventHandler="true" />
+      <Method name="onActionTableCopyItem" eventHandler="true" />
+      <Method name="onActionTableLockItem" eventHandler="true" />
+      <Method name="onActionTableUnlockItem" eventHandler="true" />
+      <Method name="onActionTableDetails" eventHandler="true" />
+      <Method name="onActionTableFilter" eventHandler="true" />
+      <Method name="onActionTablePrint" eventHandler="true" />
+      <Method name="onActionTableExport" eventHandler="true" />
+      <Method name="onActionAddlPlanning" eventHandler="true" />
+      <Method name="onToggleAllItems" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+        </Parameters>
+      </Method>
+      <Method name="onToggleItem" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+          <Parameter name="path" type="string" />
+        </Parameters>
+      </Method>
+      <Method name="onActionMaterialDetails" eventHandler="true">
+        <Parameters>
+          <Parameter name="path" type="string" />
+        </Parameters>
+      </Method>
+      <Method name="onActionTableSettings" eventHandler="true" />
+      <Method name="onActionTablePreviousPage" eventHandler="true" />
+      <Method name="onActionTableNextPage" eventHandler="true" />
+      <Method name="onSelectLineItem" eventHandler="true" />
+      <Method name="onActionItemUp" eventHandler="true" />
+      <Method name="onActionItemDown" eventHandler="true" />
+      <Method name="onSelectLineItemTab" eventHandler="true">
+        <Parameters>
+          <Parameter name="id" type="string" />
+        </Parameters>
+      </Method>
+      <Method name="onCheckInvReceipt" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+        </Parameters>
+      </Method>
+      <Method name="onCheckFinalInvoice" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+        </Parameters>
+      </Method>
+      <Method name="onCheckGrBsdIv" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+        </Parameters>
+      </Method>
+      <Method name="onCheckErs" eventHandler="true">
+        <Parameters>
+          <Parameter name="checked" type="boolean" />
+        </Parameters>
+      </Method>
+      <Method name="onActionTaxes" eventHandler="true" />
+    </Methods>
+  </Controller>
+</WebDynpro>
